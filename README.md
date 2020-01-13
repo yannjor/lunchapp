@@ -9,3 +9,6 @@ Building the project requires the following depencencies:
 * [sbt](https://www.scala-sbt.org/download.html)
 
 To build the project simply run `sbt` in the root project directory. To run the project use the sbt command `run`.
+<br>
+<br>
+![](https://i.imgur.com/v43HiSk.png)
