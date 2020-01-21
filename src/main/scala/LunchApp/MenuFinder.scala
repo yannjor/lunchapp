@@ -12,19 +12,20 @@ object MenuFinder {
 
   val now = Calendar.getInstance.getTime
   val date = new SimpleDateFormat("yyyy-MM-dd").format(now)
-  val tab = "           "
 
   /**
-    * getMenus uses the json4s library to parse the json code and returns an easily readable string.
-    * It returns "Error retrieving menus" if it is unable to get the menus for some reason
-    * (for example if no internet). See "https://github.com/json4s/json4s" for more.
+    * Retrieves the menus from the restaurant's website in JSON and parses it into a more readable format
+    * @param url the restaurants url
+    * @param restaurantName the name of the restaurant
+    * @param language the desired language, "fi" for finnish and "en" for english
+    * @return the menus for the day, or an error string in case something goes wrong
     */
   def getMenus(
       url: String,
       restaurantName: String,
       language: String
   ): String = {
-
+    val tab = " " * 5
     if (url.contains("fazer")) {
       try {
         val jsonString = Source.fromURL(url).mkString
@@ -41,7 +42,7 @@ object MenuFinder {
 
         val menu = nameList.zip(menuListFixed)
 
-        var start = restaurantName + date + "\n\n"
+        var start = restaurantName + "\n\n"
 
         for (p <- menu) {
           p._1 match {
@@ -54,7 +55,7 @@ object MenuFinder {
         start.split("\n").map(tab + _).mkString("\n") + "\n"
       } catch {
         case e: Throwable =>
-          tab + restaurantName + date + "\n\n" + tab + "Error retrieving menus."
+          tab + restaurantName + "\n\n" + "Error retrieving menus."
       }
 
     } else if (url.contains("sodexo")) {
@@ -62,7 +63,7 @@ object MenuFinder {
         val jsonString = Source.fromURL(url).mkString
         val json = parse(jsonString)
         val menuList = mutable.ArrayBuffer[String]()
-        for (i <- 1 until 6) {
+        for (i <- 1 to 5) {
           val entry = json \ "courses" \ i.toString() \ ("title_" + language)
           menuList += entry.values.toString()
         }
@@ -82,7 +83,7 @@ object MenuFinder {
         }
 
         val pairs = menuListFixed.zip(properties)
-        var start = restaurantName + date + "\n\n"
+        var start = restaurantName + "\n\n"
 
         for (p <- pairs) {
           p._2 match {
@@ -94,7 +95,7 @@ object MenuFinder {
         start.split("\n").map(tab + _).mkString("\n") + "\n"
       } catch {
         case e: Throwable =>
-          tab + restaurantName + date + "\n\n" + tab + "Error retrieving menus."
+          tab + restaurantName + "\n\n" + "Error retrieving menus."
       }
 
     } else {
@@ -105,16 +106,16 @@ object MenuFinder {
           if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) != 1 && Calendar
                 .getInstance()
                 .get(Calendar.DAY_OF_WEEK) != 7) { //No menus on saturdays and sundays
-            ("TÄFFÄ " + date + "\n" + taffa)
+            ("TÄFFÄ " + "\n" + taffa)
               .split("\n")
               .map(tab + _)
               .mkString("\n\n")
           } else
-            tab + "TÄFFÄ " + date + "\n\n" + tab + "No menus today."
+            tab + "TÄFFÄ\n\n" + "Restaurant closed."
         }
       } catch {
         case e: Throwable =>
-          taffaMenu = tab + "TÄFFÄ " + date + "\n\n" + tab + "Error retrieving menus."
+          taffaMenu = tab + "TÄFFÄ\n\n" + "Error retrieving menus."
       }
       taffaMenu
     }

@@ -2,59 +2,60 @@ package LunchApp
 
 object MenuFilter {
 
-  /*
-   * Used to filter menus based on different diets (Gluten free, vegan, lactose free etc).
-   * These are always in a parenthesis after the menus so it's quite easy to filter them.
-   */
-
-  def filterAllergens(allergens: String, menu: String): String = {
-
+  /**
+    * Filters the given menu based on different diets (Gluten free, vegan, lactose free etc).
+    * @param allergens a character representing a specific diet, eg "G" for gluten free or "L" for lactose free
+    * @param menu the menu
+    * @return the same menu but filtered according to the diets
+    */
+  def filterDiets(diets: String, menu: String): String = {
     val title = menu.split("\n").head
     val lines = menu.split("\n").toBuffer.tail
     val allergenInfo = lines.map(_.dropWhile(_ != '('))
 
     for (i <- 0 until allergenInfo.length) {
-
-      if (!allergenInfo(i).contains(allergens) && !lines(i).endsWith(":")) {
+      if (!allergenInfo(i).contains(diets) && !lines(i).endsWith(":")) {
         lines(i) = ""
       }
     }
     title + "\n" + lines.mkString("\n")
   }
 
-  //Same as filterAllergens just the "oppsite"
-
-  def filterNotAllergens(allergens: String, menu: String): String = {
-
+  /**
+    * Filters the given menu as to only include entries that dont contain allergens
+    * @param menu the menu
+    * @return the same menu but filtered as described
+    */
+  def filterAllergens(menu: String): String = {
     val title = menu.split("\n").head
     val lines = menu.split("\n").toBuffer.tail
     val allergenInfo = lines.map(_.dropWhile(_ != '('))
 
     for (i <- 0 until allergenInfo.length) {
-
-      if (allergenInfo(i).contains(allergens) && !lines(i).endsWith(":")) {
+      if (allergenInfo(i).contains("A") && !lines(i).endsWith(":")) {
         lines(i) = ""
       }
     }
     title + "\n" + lines.mkString("\n")
   }
 
-  //Used for filtering based on different food types. It takes a Set of different food types it wants to filter.
-
+  /**
+    * Filters the given menu based on some specific food types
+    * @param foodType a set containing different food types to filter by
+    * @param menu the menu
+    * @return the same menu but filtered according to the food types
+    */
   def filterFoodType(foodType: Set[String], menu: String): String = {
-
     val title = menu.split("\n").head
     val lines = menu.split("\n").toBuffer.tail
     val menuInfo = lines.map(_.takeWhile(_ != '('))
 
     for (i <- 0 until menuInfo.length) {
-
       if (!foodType.exists(menuInfo(i).toLowerCase().contains) && !lines(i)
             .endsWith(":")) {
         lines(i) = ""
 
       }
-
     }
     title + "\n" + lines.mkString("\n")
   }

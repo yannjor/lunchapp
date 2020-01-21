@@ -7,11 +7,10 @@ import java.io.PrintWriter
 import java.awt.Color._
 
 /**
-  * A basic GUI using swing
+  * A basic GUI implemented with the scala swing library.
+  * https://github.com/scala/scala-swing
   */
 object MenuApp extends SimpleSwingApplication {
-
-  //Getting the menus
 
   case class RestaurantMenu(
       val restaurantName: String,
@@ -30,7 +29,7 @@ object MenuApp extends SimpleSwingApplication {
   )
 
   var language: String = {
-    Source.fromFile("language.txt").getLines().mkString match {
+    Source.fromFile("settings/language.txt").getLines().mkString match {
       case "FI" => "FI"
       case "EN" => "EN"
       case _    => "FI" //Default language is Finnish
@@ -54,23 +53,16 @@ object MenuApp extends SimpleSwingApplication {
       )
   }
 
-  val allMenus = Vector[RestaurantMenu]().toBuffer
-
-  for (i <- 0 until resNames.length) {
-    allMenus += new RestaurantMenu(resNames(i), menuDescriptions(i))
-  }
+  val allMenus = Array.tabulate(resNames.length)(
+    i => new RestaurantMenu(resNames(i), menuDescriptions(i))
+  )
 
   var favouriteRestaurant: Option[String] = Some(
-    Source.fromFile("favRes.txt").getLines().mkString
+    Source.fromFile("settings/favRes.txt").getLines().mkString
   )
 
   def top = new MainFrame {
     title = "LunchApp"
-
-    /*
-     * Al buttons are listed as a different val so they can be referenced later in a listenTo clause to make the menus update.
-     * This might not be the best way to do it but it's the only way I found that works.
-     */
 
     val button = Button("Refresh") {
       if (language == "FI")
@@ -95,38 +87,32 @@ object MenuApp extends SimpleSwingApplication {
 
     val gluten = new MenuItem(Action("Lactose free") {
       allMenus.map(
-        i =>
-          i.menuDescription = MenuFilter.filterAllergens("L", i.menuDescription)
+        i => i.menuDescription = MenuFilter.filterDiets("L", i.menuDescription)
       )
     })
 
     val lactose = new MenuItem(Action("Gluten free") {
       allMenus.map(
-        i =>
-          i.menuDescription = MenuFilter.filterAllergens("G", i.menuDescription)
+        i => i.menuDescription = MenuFilter.filterDiets("G", i.menuDescription)
       )
     })
 
     val milk = new MenuItem(Action("Milk free") {
       allMenus.map(
-        i =>
-          i.menuDescription = MenuFilter.filterAllergens("M", i.menuDescription)
+        i => i.menuDescription = MenuFilter.filterDiets("M", i.menuDescription)
       )
     })
 
     val vegan = new MenuItem(Action("Vegan") {
       allMenus.map(
         i =>
-          i.menuDescription =
-            MenuFilter.filterAllergens("Veg", i.menuDescription)
+          i.menuDescription = MenuFilter.filterDiets("Veg", i.menuDescription)
       )
     })
 
     val allergens = new MenuItem(Action("Contains allergens") {
       allMenus.map(
-        i =>
-          i.menuDescription =
-            MenuFilter.filterNotAllergens("A", i.menuDescription)
+        i => i.menuDescription = MenuFilter.filterAllergens(i.menuDescription)
       )
     })
 
@@ -188,7 +174,7 @@ object MenuApp extends SimpleSwingApplication {
           )
       )
       language = "FI"
-      val pw = new PrintWriter("language.txt")
+      val pw = new PrintWriter("settings/language.txt")
       pw.println("FI")
       pw.close()
 
@@ -203,7 +189,7 @@ object MenuApp extends SimpleSwingApplication {
             "en"
           )
       )
-      val pw = new PrintWriter("language.txt")
+      val pw = new PrintWriter("settings/language.txt")
       language = "EN"
       pw.println("EN")
       pw.close()
@@ -268,7 +254,7 @@ object MenuApp extends SimpleSwingApplication {
         for (i <- resNames) {
           contents += new MenuItem(Action(i) {
             favouriteRestaurant = Some(i)
-            val pw = new PrintWriter("favRes.txt")
+            val pw = new PrintWriter("settings/favRes.txt")
             pw.println(i)
             pw.close()
             favouriteRestaurant = favouriteRestaurant
