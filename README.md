@@ -1,5 +1,5 @@
 # LunchApp
-A simple Scala app that gathers the daily menus from 10 different campus restaurants. Made for a course in Aalto University. 
+A Scala app that gathers the daily menus from Aalto campus restaurants. Made for a course in Aalto University. 
 
 ## Build instructions
 
@@ -11,4 +11,4 @@ Building the project requires the following depencencies:
 To build the project simply run `sbt` in the root project directory. To run the project use the sbt command `run`.
 <br>
 <br>
-![](https://i.imgur.com/v43HiSk.png)
+![](https://i.imgur.com/ZpsZMGm.png)

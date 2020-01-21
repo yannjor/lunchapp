@@ -6,6 +6,9 @@ import scala.io.Source
 import java.io.PrintWriter
 import java.awt.Color._
 
+/**
+  * A basic GUI using swing
+  */
 object MenuApp extends SimpleSwingApplication {
 
   //Getting the menus
@@ -20,12 +23,10 @@ object MenuApp extends SimpleSwingApplication {
     "Alvari",
     "Arvo",
     "Dipoli",
-    "Konetekniikka",
     "Kvarkki",
     "Täffä",
     "Tietotekniikkatalo",
-    "Tuas",
-    "Valimo"
+    "Tuas"
   )
 
   var language: String = {
@@ -63,13 +64,11 @@ object MenuApp extends SimpleSwingApplication {
     Source.fromFile("favRes.txt").getLines().mkString
   )
 
-  //GUI
-
   def top = new MainFrame {
     title = "LunchApp"
 
     /*
-     * I list every button as a different val so I can reference them later in a listenTo clause to make the menus update.
+     * Al buttons are listed as a different val so they can be referenced later in a listenTo clause to make the menus update.
      * This might not be the best way to do it but it's the only way I found that works.
      */
 
@@ -217,7 +216,7 @@ object MenuApp extends SimpleSwingApplication {
         contents += new TextArea(m.menuDescription) {
           editable = false
           border = new javax.swing.border.LineBorder(BLACK)
-          font = new Font("Calibri", 0, 14)
+          font = new Font("Arial", 0, 12)
           if (favouriteRestaurant == Some(m.restaurantName)) {
             background = PINK
           }
@@ -250,7 +249,7 @@ object MenuApp extends SimpleSwingApplication {
           sys.exit()
         })
       }
-      contents += new Menu("FilterDiets") {
+      contents += new Menu("Diets") {
         borderPainted = true
         contents += gluten
         contents += lactose
@@ -258,13 +257,13 @@ object MenuApp extends SimpleSwingApplication {
         contents += vegan
         contents += allergens
       }
-      contents += new Menu("FilterFoodType") {
+      contents += new Menu("Foods") {
         borderPainted = true
         contents += chicken
         contents += fish
         contents += pasta
       }
-      contents += new Menu("Favourite Restaurant") {
+      contents += new Menu("Favorite") {
         borderPainted = true
         for (i <- resNames) {
           contents += new MenuItem(Action(i) {

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import org.json4s._
 import org.json4s.native.JsonMethods._
 import collection.mutable.Buffer
+import scala.collection.mutable
 
 object MenuFinder {
 
@@ -60,9 +61,11 @@ object MenuFinder {
       try {
         val jsonString = Source.fromURL(url).mkString
         val json = parse(jsonString)
-        val menusForToday = json \ "courses" \ ("title_" + language)
-        val menuList = menusForToday.values.asInstanceOf[List[String]]
-
+        val menuList = mutable.ArrayBuffer[String]()
+        for (i <- 1 until 6) {
+          val entry = json \ "courses" \ i.toString() \ ("title_" + language)
+          menuList += entry.values.toString()
+        }
         val menuListFixed = menuList
           .map(_.replaceAll("\t", ""))
           .map(_.replaceAll("\n", "")) //Removes extra tabs and line breaks
@@ -70,10 +73,10 @@ object MenuFinder {
         val properties = Buffer[String]()
 
         for (i <- 0 until menuListFixed.length) {
-          (json \ "courses")(i) \ "properties" match {
+          json \ "courses" \ i.toString \ "properties" match {
             case JNothing => properties += ""
             case _ =>
-              properties += ((json \ "courses")(i) \ "properties").values
+              properties += (json \ "courses" \ i.toString \ "properties").values
                 .asInstanceOf[String]
           }
         }

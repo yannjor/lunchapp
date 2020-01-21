@@ -16,7 +16,7 @@ object Url {
       "ALVARI "
     ),
     (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/39106/" + year + "/" + month + "/" + day + "/fi",
+      "https://www.sodexo.fi/ruokalistat/output/daily_json/207/" + year + "-" + month + "-" + day,
       "ARVO "
     ),
     (
@@ -24,25 +24,17 @@ object Url {
       "DIPOLI "
     ),
     (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/140/" + year + "/" + month + "/" + day + "/fi",
-      "KONETEKNIIKKA "
-    ),
-    (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/26521/" + year + "/" + month + "/" + day + "/fi",
+      "https://www.sodexo.fi/ruokalistat/output/daily_json/86/" + year + "-" + month + "-" + day,
       "KVARKKI "
     ),
     ("http://api.teknolog.fi/taffa/fi/today/", "TÄFFÄ"),
     (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/142/" + year + "/" + month + "/" + day + "/fi",
+      "https://www.sodexo.fi/ruokalistat/output/daily_json/86/" + year + "-" + month + "-" + day,
       "TIETOTEKNIIKKATALO "
     ),
     (
       "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0199&language=fi",
       "TUAS "
-    ),
-    (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/13918/" + year + "/" + month + "/" + day + "/fi",
-      "VALIMO "
     )
   )
 
@@ -56,7 +48,7 @@ object Url {
       "ALVARI "
     ),
     (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/39106/" + year + "/" + month + "/" + day + "/fi",
+      "https://www.sodexo.fi/ruokalistat/output/daily_json/207/" + year + "-" + month + "-" + day,
       "ARVO "
     ),
     (
@@ -64,25 +56,17 @@ object Url {
       "DIPOLI "
     ),
     (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/140/" + year + "/" + month + "/" + day + "/fi",
-      "KONETEKNIIKKA "
-    ),
-    (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/26521/" + year + "/" + month + "/" + day + "/fi",
+      "https://www.sodexo.fi/ruokalistat/output/daily_json/86/" + year + "-" + month + "-" + day,
       "KVARKKI "
     ),
     ("http://api.teknolog.fi/taffa/en/today/", "TÄFFÄ"),
     (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/142/" + year + "/" + month + "/" + day + "/fi",
+      "https://www.sodexo.fi/ruokalistat/output/daily_json/86/" + year + "-" + month + "-" + day,
       "TIETOTEKNIIKKATALO "
     ),
     (
       "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0199&language=en",
       "TUAS "
-    ),
-    (
-      "https://www.sodexo.fi/ruokalistat/output/daily_json/13918/" + year + "/" + month + "/" + day + "/fi",
-      "VALIMO "
     )
   )
 
